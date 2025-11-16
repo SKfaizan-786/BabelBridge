@@ -25,7 +25,7 @@ const config = {
   validSiteKeys: (process.env.VALID_SITE_KEYS || 'PUBLIC_SITE_KEY_123').split(','),
 
   // CORS
-  allowedOrigins: (process.env.ALLOWED_ORIGINS || 'http://localhost:3000,http://localhost:8080').split(','),
+  allowedOrigins: (process.env.ALLOWED_ORIGINS || 'http://localhost:3000,http://localhost:5173,http://localhost:5175,http://127.0.0.1:5173').split(','),
 
   // Lingo (for UI localization only - build-time tool)
   lingo: {

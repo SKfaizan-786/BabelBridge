@@ -200,10 +200,10 @@
   <!-- ================================================================ -->
 
   <!-- Step 1: Load the widget CSS -->
-  <link rel="stylesheet" href="./dist/style.css">
+  <link rel="stylesheet" href="/dist/style.css">
 
   <!-- Step 2: Load the widget JavaScript -->
-  <script src="./dist/babelbridge-widget.iife.js"></script>
+  <script src="/dist/babelbridge-widget.iife.js"></script>
 
   <!-- Step 3: Initialize the widget with your configuration -->
   <script>
@@ -218,6 +218,9 @@
           primaryColor: '#FF9900',             // Amazon's brand color
           lang: 'hi'                           // Default to Hindi for India
         });
+        console.log('[Amazon Demo] BabelBridge widget initialized successfully!');
+      } else {
+        console.error('[Amazon Demo] BabelBridge not found on window object');
       }
     });
   </script>

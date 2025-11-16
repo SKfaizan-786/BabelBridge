@@ -15,6 +15,7 @@ import {
   unregisterAgent,
   getAgentSockets,
   getAllSessions,
+  deleteSession,
   sessions,
   messages as messagesMap,
 } from '../store/sessions.js';
@@ -307,6 +308,36 @@ function handleAgentConnection(socket, io) {
   socket.on('agent_stopped_typing', (data) => {
     const { sessionId } = data;
     io.to(sessionId).emit('agent_stopped_typing');
+  });
+
+  // Event: delete_session
+  // Agent deletes a session
+  socket.on('delete_session', (data) => {
+    const { sessionId } = data;
+
+    if (!sessionId) {
+      socket.emit('error', { message: 'Session ID required' });
+      return;
+    }
+
+    const success = deleteSession(sessionId);
+
+    if (success) {
+      console.log(`[Socket] Agent ${socket.id} deleted session ${sessionId}`);
+
+      // Notify all agents to update their session list
+      const agentSockets = getAgentSockets();
+      agentSockets.forEach((agentSocketId) => {
+        io.to(agentSocketId).emit('session_deleted', { sessionId });
+      });
+
+      // Disconnect the user socket if still connected
+      io.to(sessionId).emit('session_closed', {
+        message: 'Session ended by agent'
+      });
+    } else {
+      socket.emit('error', { message: 'Session not found' });
+    }
   });
 
   // Event: disconnect

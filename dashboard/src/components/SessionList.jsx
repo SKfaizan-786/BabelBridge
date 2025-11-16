@@ -3,7 +3,14 @@ import { useSocket } from '../contexts/SocketContext';
 import '../styles/SessionList.css';
 
 const SessionList = ({ selectedSession, onSelectSession }) => {
-  const { sessions } = useSocket();
+  const { sessions, deleteSession } = useSocket();
+
+  const handleDeleteSession = (e, sessionId) => {
+    e.stopPropagation(); // Prevent selecting the session when clicking delete
+    if (window.confirm('Are you sure you want to delete this session?')) {
+      deleteSession(sessionId);
+    }
+  };
 
   const formatTime = (isoString) => {
     if (!isoString) return '';
@@ -77,6 +84,16 @@ const SessionList = ({ selectedSession, onSelectSession }) => {
                   <span className="session-lang-badge">{session.userLang || 'en'}</span>
                 </div>
               </div>
+
+              <button
+                className="session-delete-btn"
+                onClick={(e) => handleDeleteSession(e, session.sessionId)}
+                title="Delete session"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                </svg>
+              </button>
             </div>
           ))
         )}

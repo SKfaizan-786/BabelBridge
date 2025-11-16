@@ -135,6 +135,28 @@ export function getAllSessions() {
   return Array.from(sessions.values());
 }
 
+/**
+ * Deletes a session and its messages
+ * @param {string} sessionId
+ * @returns {boolean} Success status
+ */
+export function deleteSession(sessionId) {
+  const session = sessions.get(sessionId);
+  if (!session) return false;
+
+  // Remove session data
+  sessions.delete(sessionId);
+  messages.delete(sessionId);
+
+  // Remove socket mapping if exists
+  if (session.socketId) {
+    socketToSession.delete(session.socketId);
+  }
+
+  console.log(`[Store] Deleted session: ${sessionId}`);
+  return true;
+}
+
 // ==================== MESSAGE MANAGEMENT ====================
 
 /**

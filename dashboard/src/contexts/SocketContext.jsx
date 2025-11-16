@@ -118,6 +118,17 @@ export const SocketProvider = ({ children }) => {
       }
     });
 
+    // Session deletion event
+    newSocket.on('session_deleted', (data) => {
+      console.log('[Dashboard] Session deleted:', data.sessionId);
+      setSessions(prev => prev.filter(s => s.sessionId !== data.sessionId));
+      setMessages(prev => {
+        const newMessages = { ...prev };
+        delete newMessages[data.sessionId];
+        return newMessages;
+      });
+    });
+
     return () => {
       newSocket.close();
     };
@@ -180,6 +191,15 @@ export const SocketProvider = ({ children }) => {
     socket.emit('request_session_history', { sessionId });
   };
 
+  const deleteSession = (sessionId) => {
+    if (!socket || !connected) {
+      console.error('[Dashboard] Cannot delete session: not connected');
+      return;
+    }
+    console.log('[Dashboard] Deleting session:', sessionId);
+    socket.emit('delete_session', { sessionId });
+  };
+
   const value = {
     socket,
     connected,
@@ -190,7 +210,8 @@ export const SocketProvider = ({ children }) => {
     claimSession,
     startTyping,
     stopTyping,
-    requestSessionHistory
+    requestSessionHistory,
+    deleteSession
   };
 
   return (

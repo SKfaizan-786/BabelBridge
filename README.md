@@ -1,12 +1,18 @@
 # 🌉 BabelBridge
 
-> **Break language barriers with real-time multilingual customer support**
+<div align="center">
+  <img src="logo.jpg" alt="BabelBridge Logo" width="200"/>
+
+  **Break language barriers with real-time multilingual customer support**
+
+  ![Version](https://img.shields.io/badge/version-1.0.0-blue)
+  ![License](https://img.shields.io/badge/license-MIT-green)
+  ![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)
+</div>
+
+---
 
 BabelBridge is a production-ready multilingual support chat system built for hackathons that enables real-time communication between customers and agents across **7 languages** with automatic translation. Customers chat in their native language, agents respond in English, and everything is translated automatically in real-time.
-
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)
 
 ---
 

@@ -11,7 +11,7 @@ export const useSocket = () => {
   return context;
 };
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://babelbridge.onrender.com';
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);

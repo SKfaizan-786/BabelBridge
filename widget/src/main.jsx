@@ -5,7 +5,7 @@ import './styles/global.css';
 window.BabelBridge = {
   init: function(config = {}) {
     const {
-      apiUrl = 'http://localhost:3000',
+      apiUrl = 'https://babelbridge.onrender.com',
       position = 'bottom-right',
       theme = 'dark',
       primaryColor = '#0ea5e9',

@@ -27,7 +27,7 @@
   // ==================== CONFIGURATION ====================
 
   const DEFAULT_CONFIG = {
-    backendUrl: 'http://localhost:3000',
+    backendUrl: 'https://babelbridge.onrender.com',
     siteKey: 'PUBLIC_SITE_KEY_123',
     defaultLanguage: 'auto',
     availableLanguages: ['en', 'hi', 'es', 'bn'],

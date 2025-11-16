@@ -16,7 +16,7 @@ const __dirname = dirname(__filename);
 const LOCALES_DIR = join(__dirname, '../../locales');
 
 /**
- * GET /locales/:lang
+ * GET /locales/widget-:lang.json or /locales/:lang.json or /locales/:lang
  * Returns localized UI strings for a specific language
  *
  * Path params:
@@ -25,8 +25,17 @@ const LOCALES_DIR = join(__dirname, '../../locales');
  * Returns:
  *   - JSON object with localized strings
  */
-router.get('/locales/:lang', async (req, res) => {
-  const { lang } = req.params;
+router.get('/locales/:filename', async (req, res) => {
+  let { filename } = req.params;
+
+  // Extract language code from various formats:
+  // - widget-hi.json -> hi
+  // - hi.json -> hi
+  // - hi -> hi
+  let lang = filename
+    .replace('widget-', '')
+    .replace('.json', '')
+    .trim();
 
   // Validate language code
   if (!config.supportedLanguages.includes(lang)) {

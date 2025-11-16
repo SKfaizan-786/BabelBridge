@@ -41,6 +41,9 @@ export const LocaleProvider = ({ children, apiUrl, initialLang = 'en' }) => {
   const [strings, setStrings] = useState(DEFAULT_STRINGS);
   const [loading, setLoading] = useState(false);
 
+  // Use apiUrl or default to production backend
+  const API_URL = apiUrl || 'https://babelbridge.onrender.com';
+
   // Listen for language change events from demo page
   useEffect(() => {
     const handleLangChange = (event) => {
@@ -68,12 +71,12 @@ export const LocaleProvider = ({ children, apiUrl, initialLang = 'en' }) => {
 
       setLoading(true);
       try {
-        // Fetch from local Lingo-generated widget files
-        const response = await fetch(`/locales/widget-${lang}.json`);
+        // Fetch from backend API (works in both dev and production)
+        const response = await fetch(`${API_URL}/api/locales/widget-${lang}.json`);
         if (response.ok) {
           const localeData = await response.json();
           setStrings(localeData);
-          console.log(`[Widget] Loaded ${lang} UI strings`);
+          console.log(`[Widget] Loaded ${lang} UI strings from ${API_URL}`);
         } else {
           console.warn(`[Widget] Failed to load ${lang}, using English`);
           setStrings(DEFAULT_STRINGS);
@@ -87,7 +90,7 @@ export const LocaleProvider = ({ children, apiUrl, initialLang = 'en' }) => {
     };
 
     fetchLocale(currentLang);
-  }, [currentLang]);
+  }, [currentLang, API_URL]);
 
   const t = (key) => {
     return strings[key] || key;

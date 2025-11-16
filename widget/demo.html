@@ -646,5 +646,39 @@
     // Initialize with English
     changeLanguage('en');
   </script>
+
+  <!-- ============================================ -->
+  <!-- BabelBridge Chat Widget Embed               -->
+  <!-- ============================================ -->
+
+  <!-- Load Widget CSS -->
+  <link rel="stylesheet" href="/dist/style.css">
+
+  <!-- Load Widget Script -->
+  <script src="/dist/babelbridge-widget.iife.js"></script>
+
+  <!-- Initialize Widget -->
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      if (window.BabelBridge && window.BabelBridge.init) {
+        window.BabelBridge.init({
+          apiUrl: 'https://babelbridge.onrender.com',
+          siteKey: 'demo-landing-page',
+          position: 'bottom-right',
+          theme: 'dark',
+          primaryColor: '#7FFF00',
+          lang: 'en'
+        });
+        console.log('[Demo Site] BabelBridge widget initialized!');
+      } else {
+        console.error('[Demo Site] BabelBridge not found on window object');
+      }
+    });
+  </script>
+
+  <!-- ============================================ -->
+  <!-- End BabelBridge Chat Widget                 -->
+  <!-- ============================================ -->
+
 </body>
 </html>

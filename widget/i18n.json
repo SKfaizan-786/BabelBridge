@@ -1,0 +1,18 @@
+{
+  "$schema": "https://lingo.dev/schema/i18n.json",
+  "version": "1.10",
+  "locale": {
+    "source": "en",
+    "targets": ["hi", "bn", "ta", "es", "ar", "zh"]
+  },
+  "buckets": {
+    "json": {
+      "include": ["public/locales/[locale].json"]
+    }
+  },
+  "provider": {
+    "id": "google",
+    "model": "gemini-2.0-flash-exp",
+    "prompt": "Translate the provided text from {source} to {target}. Maintain the same tone and formality. For technical terms like 'BabelBridge', 'API', 'JWT', 'CORS', keep them in English."
+  }
+}

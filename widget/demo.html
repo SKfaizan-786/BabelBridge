@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
+  <title>BabelBridge - Build. Commit. Translate.</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #141414;
+      --bg-tertiary: #1a1a1a;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0a0;
+      --accent-green: #7FFF00;
+      --accent-green-dark: #6acc00;
+      --border-color: #2a2a2a;
+      --code-bg: #0f0f0f;
+    }
+
+    body.light {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --bg-tertiary: #e9ecef;
+      --text-primary: #0a0a0a;
+      --text-secondary: #6c757d;
+      --border-color: #dee2e6;
+      --code-bg: #f1f3f5;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      transition: all 0.3s ease;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-img {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .logo span {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-green), #00d4ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .theme-toggle {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .theme-toggle:hover {
+      background: var(--accent-green);
+      color: var(--bg-primary);
+    }
+
+    .lang-selector {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 120px 2rem 80px;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-green), #00d4ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--accent-green);
+      color: var(--bg-primary);
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-green-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 80px 2rem;
+      background: var(--bg-secondary);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: var(--bg-primary);
+      padding: 2rem;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: var(--accent-green);
+      transform: translateY(-4px);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+    }
+
+    /* How to Embed Section */
+    .embed-section {
+      padding: 80px 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .embed-steps {
+      display: grid;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .step {
+      background: var(--bg-secondary);
+      padding: 2rem;
+      border-radius: 16px;
+      border-left: 4px solid var(--accent-green);
+    }
+
+    .step h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .step-number {
+      background: var(--accent-green);
+      color: var(--bg-primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      overflow-x: auto;
+      margin-top: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+
+    .code-block code {
+      color: var(--accent-green);
+    }
+
+    /* Language Grid */
+    .languages {
+      padding: 80px 2rem;
+      background: var(--bg-secondary);
+    }
+
+    .lang-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .lang-item {
+      background: var(--bg-primary);
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s;
+    }
+
+    .lang-item:hover {
+      border-color: var(--accent-green);
+    }
+
+    .lang-flag {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Footer */
+    footer {
+      padding: 2rem;
+      text-align: center;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">
+      <img src="logo.jpg" alt="BabelBridge" class="logo-img">
+      <span>BabelBridge</span>
+    </div>
+    <div class="nav-links">
+      <a href="#features" data-i18n="nav_features">Features</a>
+      <a href="#embed" data-i18n="nav_embed">How to Embed</a>
+      <a href="#languages" data-i18n="nav_languages">Languages</a>
+      <a href="http://localhost:5175/" target="_blank">Get BabelBridge</a>
+      <select class="lang-selector" id="langSelector">
+        <option value="en">English</option>
+        <option value="hi">हिंदी</option>
+        <option value="bn">বাংলা</option>
+        <option value="ta">தமிழ்</option>
+        <option value="es">Español</option>
+        <option value="ar">العربية</option>
+        <option value="zh">中文</option>
+      </select>
+      <button class="theme-toggle" id="themeToggle">
+        <span id="themeIcon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>
+      <span data-i18n="hero_build">Build.</span><br>
+      <span data-i18n="hero_commit">Commit.</span><br>
+      <span class="gradient-text" data-i18n="hero_translate">Translate.</span>
+    </h1>
+    <p data-i18n="hero_description">
+      AI localization for teams that ship fast. Break language barriers with real-time translation
+      using the best LLM models. Support customers in 7 languages instantly.
+    </p>
+    <div class="cta-buttons">
+      <button class="btn-primary" onclick="scrollToEmbed()" data-i18n="cta_get_started">Get Started</button>
+      <button class="btn-secondary" onclick="openDocs()" data-i18n="cta_see_docs">See the Docs →</button>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <h2 class="section-title" data-i18n="features_title">Why BabelBridge?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <h3 data-i18n="feature1_title">7 Languages</h3>
+        <p data-i18n="feature1_desc">Support customers in English, Hindi, Bengali, Tamil, Spanish, Arabic, and Chinese</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3 data-i18n="feature2_title">Real-time Translation</h3>
+        <p data-i18n="feature2_desc">Instant message translation powered by Google Translate - free, no API key needed</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3 data-i18n="feature3_title">Beautiful UI</h3>
+        <p data-i18n="feature3_desc">Futuristic dark/light themes with smooth animations and gradients</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚀</div>
+        <h3 data-i18n="feature4_title">Easy Integration</h3>
+        <p data-i18n="feature4_desc">Just 3 lines of code to add multilingual support to your website</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3 data-i18n="feature5_title">Responsive</h3>
+        <p data-i18n="feature5_desc">Works perfectly on desktop, tablet, and mobile devices</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3 data-i18n="feature6_title">Secure</h3>
+        <p data-i18n="feature6_desc">JWT authentication and CORS protection for your data</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to Embed Section -->
+  <section class="embed-section" id="embed">
+    <h2 class="section-title" data-i18n="embed_title">How to Embed</h2>
+    <div class="embed-steps">
+      <div class="step">
+        <h3>
+          <span class="step-number">1</span>
+          <span data-i18n="step1_title">Install the Widget</span>
+        </h3>
+        <p data-i18n="step1_desc">Add the BabelBridge script to your website's HTML:</p>
+        <div class="code-block">
+          <code>&lt;script src="https://your-domain.com/babelbridge.js"&gt;&lt;/script&gt;</code>
+        </div>
+      </div>
+
+      <div class="step">
+        <h3>
+          <span class="step-number">2</span>
+          <span data-i18n="step2_title">Initialize</span>
+        </h3>
+        <p data-i18n="step2_desc">Configure your widget with just a few options:</p>
+        <div class="code-block">
+          <code>BabelBridge.init({
+  apiUrl: 'http://localhost:3000',
+  position: 'bottom-right',
+  theme: 'dark',
+  lang: 'en'
+});</code>
+        </div>
+      </div>
+
+      <div class="step">
+        <h3>
+          <span class="step-number">3</span>
+          <span data-i18n="step3_title">Start Chatting!</span>
+        </h3>
+        <p data-i18n="step3_desc">Your customers can now chat in their preferred language. Try it now by clicking the chat button in the bottom-right corner!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Supported Languages -->
+  <section class="languages" id="languages">
+    <h2 class="section-title" data-i18n="languages_title">Supported Languages</h2>
+    <div class="lang-grid">
+      <div class="lang-item">
+        <div class="lang-flag">🇬🇧</div>
+        <div data-i18n="lang_english">English</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-flag">🇮🇳</div>
+        <div data-i18n="lang_hindi">Hindi</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-flag">🇮🇳</div>
+        <div data-i18n="lang_bengali">Bengali</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-flag">🇮🇳</div>
+        <div data-i18n="lang_tamil">Tamil</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-flag">🇪🇸</div>
+        <div data-i18n="lang_spanish">Spanish</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-flag">🇸🇦</div>
+        <div data-i18n="lang_arabic">Arabic</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-flag">🇨🇳</div>
+        <div data-i18n="lang_chinese">Chinese</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p data-i18n="footer_text">Built with 💚 for the hackathon | Powered by BabelBridge</p>
+  </footer>
+
+  <!-- BabelBridge Widget -->
+  <script type="module">
+    import '/src/main.jsx';
+
+    // Initialize widget after module loads
+    setTimeout(() => {
+      if (window.BabelBridge) {
+        console.log('Initializing BabelBridge widget...');
+        window.BabelBridge.init({
+          apiUrl: 'http://localhost:3000',
+          position: 'bottom-right',
+          theme: 'dark',
+          lang: 'en'
+        });
+      } else {
+        console.error('BabelBridge not loaded!');
+      }
+    }, 100);
+  </script>
+
+  <!-- Page Scripts -->
+  <script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      themeIcon.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+    });
+
+    // Smooth Scroll
+    function scrollToEmbed() {
+      document.getElementById('embed').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function openDocs() {
+      alert('Documentation coming soon!');
+    }
+
+    // Internationalization Data
+    const translations = {
+      en: {
+        nav_features: 'Features',
+        nav_embed: 'How to Embed',
+        nav_languages: 'Languages',
+        hero_build: 'Build.',
+        hero_commit: 'Commit.',
+        hero_translate: 'Translate.',
+        hero_description: 'AI localization for teams that ship fast. Break language barriers with real-time translation using the best LLM models. Support customers in 7 languages instantly.',
+        cta_get_started: 'Get Started',
+        cta_see_docs: 'See the Docs →',
+        features_title: 'Why BabelBridge?',
+        feature1_title: '7 Languages',
+        feature1_desc: 'Support customers in English, Hindi, Bengali, Tamil, Spanish, Arabic, and Chinese',
+        feature2_title: 'Real-time Translation',
+        feature2_desc: 'Instant message translation powered by Google Translate - free, no API key needed',
+        feature3_title: 'Beautiful UI',
+        feature3_desc: 'Futuristic dark/light themes with smooth animations and gradients',
+        feature4_title: 'Easy Integration',
+        feature4_desc: 'Just 3 lines of code to add multilingual support to your website',
+        feature5_title: 'Responsive',
+        feature5_desc: 'Works perfectly on desktop, tablet, and mobile devices',
+        feature6_title: 'Secure',
+        feature6_desc: 'JWT authentication and CORS protection for your data',
+        embed_title: 'How to Embed',
+        step1_title: 'Install the Widget',
+        step1_desc: "Add the BabelBridge script to your website's HTML:",
+        step2_title: 'Initialize',
+        step2_desc: 'Configure your widget with just a few options:',
+        step3_title: 'Start Chatting!',
+        step3_desc: 'Your customers can now chat in their preferred language. Try it now by clicking the chat button in the bottom-right corner!',
+        languages_title: 'Supported Languages',
+        lang_english: 'English',
+        lang_hindi: 'Hindi',
+        lang_bengali: 'Bengali',
+        lang_tamil: 'Tamil',
+        lang_spanish: 'Spanish',
+        lang_arabic: 'Arabic',
+        lang_chinese: 'Chinese',
+        footer_text: 'Built with 💚 for the hackathon | Powered by BabelBridge'
+      }
+      // Other languages will be fetched from backend /api/locales/{lang}
+    };
+
+    // Language Selector
+    const langSelector = document.getElementById('langSelector');
+    let currentLang = 'en';
+
+    langSelector.addEventListener('change', async (e) => {
+      const newLang = e.target.value;
+      await changeLanguage(newLang);
+    });
+
+    async function changeLanguage(lang) {
+      currentLang = lang;
+
+      let langData = translations[lang];
+
+      // Fetch from local Lingo-generated files
+      try {
+        const response = await fetch(`/locales/${lang}.json`);
+        if (response.ok) {
+          langData = await response.json();
+          console.log(`[i18n] Loaded ${lang} translations`);
+        } else {
+          console.warn(`Failed to load ${lang}, using English`);
+          langData = translations.en;
+        }
+      } catch (error) {
+        console.error(`Error loading ${lang}:`, error);
+        langData = translations.en;
+      }
+
+      // Update all elements with data-i18n attribute
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (langData[key]) {
+          el.textContent = langData[key];
+        }
+      });
+
+      // Update HTML lang attribute
+      document.documentElement.lang = lang;
+
+      // Notify widget to change language too
+      window.dispatchEvent(new CustomEvent('babelbridge:lang-change', {
+        detail: { lang }
+      }));
+    }
+
+    // Initialize with English
+    changeLanguage('en');
+  </script>
+</body>
+</html>

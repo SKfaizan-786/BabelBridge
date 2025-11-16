@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Dashboard - LingoLive Support</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f3f4f6;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Header */
+    .header {
+      background: #1f2937;
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .header-subtitle {
+      font-size: 13px;
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Main Layout */
+    .container {
+      display: flex;
+      height: calc(100vh - 64px);
+    }
+
+    /* Sidebar - Sessions List */
+    .sidebar {
+      width: 320px;
+      background: white;
+      border-right: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 16px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .sessions-count {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .sessions-list {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .session-item {
+      padding: 16px;
+      border-bottom: 1px solid #f3f4f6;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .session-item:hover {
+      background: #f9fafb;
+    }
+
+    .session-item.active {
+      background: #eff6ff;
+      border-left: 3px solid #0b5cff;
+    }
+
+    .session-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .session-id {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .session-lang {
+      font-size: 12px;
+      padding: 2px 8px;
+      background: #e0e7ff;
+      color: #3730a3;
+      border-radius: 10px;
+    }
+
+    .session-info {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .session-time {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .empty-state {
+      padding: 40px 20px;
+      text-align: center;
+      color: #9ca3af;
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    /* Main Area - Chat */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #f9fafb;
+    }
+
+    .chat-header {
+      padding: 16px 24px;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .chat-info {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+
+    .chat-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: white;
+      color: #374151;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: #f3f4f6;
+    }
+
+    .btn-primary {
+      background: #0b5cff;
+      color: white;
+      border-color: #0b5cff;
+    }
+
+    .btn-primary:hover {
+      background: #0a4fd4;
+    }
+
+    /* Messages Area */
+    .messages-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+    }
+
+    .message {
+      margin-bottom: 20px;
+      max-width: 70%;
+    }
+
+    .message-user {
+      margin-left: auto;
+    }
+
+    .message-agent {
+      margin-right: auto;
+    }
+
+    .message-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .message-sender {
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .message-lang-badge {
+      font-size: 11px;
+      padding: 2px 6px;
+      background: #fef3c7;
+      color: #92400e;
+      border-radius: 8px;
+    }
+
+    .message-time {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .message-content {
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .message-user .message-content {
+      background: #e0e7ff;
+      color: #1e1b4b;
+      border-bottom-right-radius: 4px;
+    }
+
+    .message-agent .message-content {
+      background: #0b5cff;
+      color: white;
+      border-bottom-left-radius: 4px;
+    }
+
+    .message-original {
+      font-size: 12px;
+      margin-top: 6px;
+      padding: 8px 12px;
+      background: #f9fafb;
+      border-left: 3px solid #d1d5db;
+      border-radius: 4px;
+      color: #6b7280;
+    }
+
+    .typing-indicator {
+      padding: 12px 24px;
+      font-size: 13px;
+      font-style: italic;
+      color: #6b7280;
+      background: white;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    /* Input Area */
+    .input-container {
+      padding: 16px 24px;
+      background: white;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .input-wrapper {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    .input-area {
+      flex: 1;
+    }
+
+    .input-label {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 44px;
+      max-height: 120px;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: #0b5cff;
+      box-shadow: 0 0 0 3px rgba(11, 92, 255, 0.1);
+    }
+
+    .send-btn {
+      padding: 12px 24px;
+      background: #0b5cff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      height: 44px;
+    }
+
+    .send-btn:hover {
+      background: #0a4fd4;
+    }
+
+    .send-btn:disabled {
+      background: #d1d5db;
+      cursor: not-allowed;
+    }
+
+    /* Placeholder */
+    .placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #9ca3af;
+    }
+
+    .placeholder-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+
+    .placeholder-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .placeholder-text {
+      font-size: 14px;
+    }
+
+    /* Scrollbar */
+    .sessions-list::-webkit-scrollbar,
+    .messages-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .sessions-list::-webkit-scrollbar-track,
+    .messages-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    .sessions-list::-webkit-scrollbar-thumb,
+    .messages-container::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 3px;
+    }
+
+    .sessions-list::-webkit-scrollbar-thumb:hover,
+    .messages-container::-webkit-scrollbar-thumb:hover {
+      background: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <div class="header-title">LingoLive Support - Agent Dashboard</div>
+      <div class="header-subtitle">Multilingual Customer Support</div>
+    </div>
+    <div class="status-badge">
+      <div class="status-dot"></div>
+      <span id="connection-status">Connected</span>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Sidebar - Sessions List -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">Active Sessions</div>
+        <div class="sessions-count" id="sessions-count">0 sessions</div>
+      </div>
+      <div class="sessions-list" id="sessions-list">
+        <div class="empty-state">
+          <div class="empty-state-icon">💬</div>
+          <div>No active sessions</div>
+          <div style="font-size: 12px; margin-top: 8px;">Waiting for users to connect...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Area - Chat -->
+    <div class="main">
+      <div id="no-session-placeholder" class="placeholder">
+        <div class="placeholder-icon">👋</div>
+        <div class="placeholder-title">Welcome, Agent!</div>
+        <div class="placeholder-text">Select a session from the sidebar to start chatting</div>
+      </div>
+
+      <div id="chat-area" style="display: none; flex: 1; display: flex; flex-direction: column;">
+        <div class="chat-header">
+          <div>
+            <div class="chat-title" id="chat-title">Session</div>
+            <div class="chat-info" id="chat-info">User language: English</div>
+          </div>
+        </div>
+
+        <div class="messages-container" id="messages-container">
+          <!-- Messages will be rendered here -->
+        </div>
+
+        <div class="typing-indicator" id="typing-indicator" style="display: none;">
+          User is typing...
+        </div>
+
+        <div class="input-container">
+          <div class="input-wrapper">
+            <div class="input-area">
+              <label class="input-label">Your message (in English):</label>
+              <textarea
+                id="message-input"
+                class="input-field"
+                placeholder="Type your reply in English. It will be automatically translated to the user's language..."
+                rows="1"
+              ></textarea>
+            </div>
+            <button id="send-btn" class="send-btn" onclick="sendMessage()">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Socket.IO Client -->
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+    // State
+    let socket = null;
+    let sessions = new Map();
+    let currentSessionId = null;
+    let typingTimeout = null;
+
+    // Initialize
+    window.onload = function() {
+      connectToBackend();
+    };
+
+    // Connect to backend
+    function connectToBackend() {
+      socket = io('http://localhost:3000', {
+        auth: {
+          clientType: 'agent'
+        },
+        transports: ['websocket', 'polling']
+      });
+
+      // Connection events
+      socket.on('connect', () => {
+        console.log('[Agent] Connected to backend');
+        updateConnectionStatus(true);
+      });
+
+      socket.on('disconnect', () => {
+        console.log('[Agent] Disconnected from backend');
+        updateConnectionStatus(false);
+      });
+
+      // Session events
+      socket.on('sessions_list', (data) => {
+        console.log('[Agent] Received sessions list:', data.sessions.length);
+        data.sessions.forEach(session => {
+          addOrUpdateSession(session);
+        });
+        renderSessionsList();
+      });
+
+      socket.on('new_session', (data) => {
+        console.log('[Agent] New session:', data.session.sessionId);
+        addOrUpdateSession(data.session);
+        renderSessionsList();
+      });
+
+      socket.on('session_ended', (data) => {
+        console.log('[Agent] Session ended:', data.sessionId);
+        removeSession(data.sessionId);
+        renderSessionsList();
+
+        if (currentSessionId === data.sessionId) {
+          currentSessionId = null;
+          showPlaceholder();
+        }
+      });
+
+      // Message events
+      socket.on('user_message', (data) => {
+        console.log('[Agent] User message:', data);
+
+        const session = sessions.get(data.sessionId);
+        if (!session) return;
+
+        const message = {
+          id: data.messageId,
+          sender: 'user',
+          text: data.text, // English translation
+          originalText: data.originalText,
+          originalLang: data.originalLang,
+          timestamp: new Date(data.timestamp)
+        };
+
+        if (!session.messages) session.messages = [];
+        session.messages.push(message);
+
+        if (currentSessionId === data.sessionId) {
+          renderMessages();
+        }
+
+        // Update session item
+        renderSessionsList();
+      });
+
+      socket.on('message_sent', (data) => {
+        console.log('[Agent] Message sent confirmation:', data);
+      });
+
+      // Typing events
+      socket.on('user_typing', (data) => {
+        if (currentSessionId === data.sessionId) {
+          showTypingIndicator(true);
+        }
+      });
+
+      socket.on('user_stopped_typing', (data) => {
+        if (currentSessionId === data.sessionId) {
+          showTypingIndicator(false);
+        }
+      });
+
+      socket.on('error', (data) => {
+        console.error('[Agent] Error:', data);
+        alert('Error: ' + data.message);
+      });
+    }
+
+    // Session management
+    function addOrUpdateSession(sessionData) {
+      if (!sessions.has(sessionData.sessionId)) {
+        sessionData.messages = [];
+      } else {
+        sessionData.messages = sessions.get(sessionData.sessionId).messages || [];
+      }
+
+      sessions.set(sessionData.sessionId, sessionData);
+    }
+
+    function removeSession(sessionId) {
+      sessions.delete(sessionId);
+    }
+
+    function selectSession(sessionId) {
+      currentSessionId = sessionId;
+
+      // Request session history
+      socket.emit('request_session_history', { sessionId });
+
+      // Update UI
+      renderSessionsList();
+      renderChatArea();
+    }
+
+    // Rendering
+    function renderSessionsList() {
+      const container = document.getElementById('sessions-list');
+      const count = document.getElementById('sessions-count');
+
+      const sessionArray = Array.from(sessions.values());
+      count.textContent = `${sessionArray.length} session${sessionArray.length !== 1 ? 's' : ''}`;
+
+      if (sessionArray.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">💬</div>
+            <div>No active sessions</div>
+            <div style="font-size: 12px; margin-top: 8px;">Waiting for users to connect...</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = sessionArray.map(session => {
+        const isActive = session.sessionId === currentSessionId;
+        const lastMessage = session.messages && session.messages.length > 0
+          ? session.messages[session.messages.length - 1]
+          : null;
+
+        const time = session.lastActivity
+          ? new Date(session.lastActivity).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+          : '';
+
+        return `
+          <div class="session-item ${isActive ? 'active' : ''}" onclick="selectSession('${session.sessionId}')">
+            <div class="session-header">
+              <div class="session-id">Session ${session.sessionId.slice(0, 8)}</div>
+              <div class="session-lang">${(session.userLang || 'en').toUpperCase()}</div>
+            </div>
+            <div class="session-info">
+              ${lastMessage ? `Last: ${lastMessage.sender === 'user' ? 'User' : 'You'}` : 'No messages yet'}
+            </div>
+            <div class="session-time">${time}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderChatArea() {
+      const session = sessions.get(currentSessionId);
+      if (!session) {
+        showPlaceholder();
+        return;
+      }
+
+      document.getElementById('no-session-placeholder').style.display = 'none';
+      document.getElementById('chat-area').style.display = 'flex';
+
+      document.getElementById('chat-title').textContent = `Session ${session.sessionId.slice(0, 8)}`;
+      document.getElementById('chat-info').textContent = `User language: ${getLangName(session.userLang || 'en')}`;
+
+      renderMessages();
+    }
+
+    function renderMessages() {
+      const session = sessions.get(currentSessionId);
+      if (!session) return;
+
+      const container = document.getElementById('messages-container');
+      const messages = session.messages || [];
+
+      if (messages.length === 0) {
+        container.innerHTML = `
+          <div class="placeholder">
+            <div class="placeholder-icon">💬</div>
+            <div class="placeholder-title">No messages yet</div>
+            <div class="placeholder-text">Waiting for user to send a message...</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = messages.map(msg => {
+        const isUser = msg.sender === 'user';
+        const time = msg.timestamp.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+        return `
+          <div class="message ${isUser ? 'message-user' : 'message-agent'}">
+            <div class="message-header">
+              <span class="message-sender">${isUser ? 'User' : 'You (Agent)'}</span>
+              ${isUser && msg.originalLang !== 'en' ? `<span class="message-lang-badge">Translated from ${msg.originalLang.toUpperCase()}</span>` : ''}
+              <span class="message-time">${time}</span>
+            </div>
+            <div class="message-content">${escapeHtml(msg.text)}</div>
+            ${isUser && msg.originalText !== msg.text ? `<div class="message-original">Original: "${escapeHtml(msg.originalText)}"</div>` : ''}
+          </div>
+        `;
+      }).join('');
+
+      // Scroll to bottom
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function showPlaceholder() {
+      document.getElementById('no-session-placeholder').style.display = 'flex';
+      document.getElementById('chat-area').style.display = 'none';
+    }
+
+    // Message sending
+    function sendMessage() {
+      const input = document.getElementById('message-input');
+      const text = input.value.trim();
+
+      if (!text || !currentSessionId) return;
+
+      const session = sessions.get(currentSessionId);
+      if (!session) return;
+
+      // Send to backend
+      socket.emit('agent_message', {
+        sessionId: currentSessionId,
+        text: text
+      });
+
+      // Add to local messages optimistically
+      const message = {
+        id: `temp-${Date.now()}`,
+        sender: 'agent',
+        text: text,
+        originalText: text,
+        originalLang: 'en',
+        timestamp: new Date()
+      };
+
+      session.messages.push(message);
+      renderMessages();
+
+      // Clear input
+      input.value = '';
+      input.style.height = 'auto';
+    }
+
+    // Typing indicators
+    function showTypingIndicator(show) {
+      const indicator = document.getElementById('typing-indicator');
+      indicator.style.display = show ? 'block' : 'none';
+    }
+
+    // Input handling
+    document.addEventListener('DOMContentLoaded', () => {
+      const input = document.getElementById('message-input');
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      // Auto-resize textarea
+      input.addEventListener('input', () => {
+        input.style.height = 'auto';
+        input.style.height = input.scrollHeight + 'px';
+
+        // Emit typing event
+        if (socket && currentSessionId) {
+          socket.emit('agent_typing', { sessionId: currentSessionId });
+
+          clearTimeout(typingTimeout);
+          typingTimeout = setTimeout(() => {
+            socket.emit('agent_stopped_typing', { sessionId: currentSessionId });
+          }, 1000);
+        }
+      });
+    });
+
+    // Listen for session history
+    socket && socket.on('session_history', (data) => {
+      console.log('[Agent] Received session history:', data);
+
+      const session = sessions.get(data.sessionId);
+      if (session) {
+        session.messages = data.messages.map(msg => ({
+          id: msg.id,
+          sender: msg.sender,
+          text: msg.sender === 'user' ? msg.translatedText : msg.originalText,
+          originalText: msg.originalText,
+          originalLang: msg.originalLang,
+          timestamp: new Date(msg.timestamp)
+        }));
+
+        if (currentSessionId === data.sessionId) {
+          renderMessages();
+        }
+      }
+    });
+
+    // Utilities
+    function updateConnectionStatus(connected) {
+      const status = document.getElementById('connection-status');
+      status.textContent = connected ? 'Connected' : 'Disconnected';
+      status.parentElement.style.background = connected
+        ? 'rgba(16, 185, 129, 0.2)'
+        : 'rgba(239, 68, 68, 0.2)';
+    }
+
+    function getLangName(code) {
+      const names = {
+        en: 'English',
+        hi: 'Hindi (हिंदी)',
+        es: 'Spanish (Español)',
+        bn: 'Bengali (বাংলা)'
+      };
+      return names[code] || code.toUpperCase();
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

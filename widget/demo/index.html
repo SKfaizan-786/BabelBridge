@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LingoLive Support - Demo Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 42px;
+      color: #1f2937;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 20px;
+      color: #6b7280;
+      margin-bottom: 40px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #0b5cff;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+      text-align: left;
+    }
+
+    .feature {
+      padding: 24px;
+      background: #f9fafb;
+      border-radius: 12px;
+      border: 2px solid #e5e7eb;
+    }
+
+    .feature-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .feature-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .cta {
+      margin-top: 40px;
+      padding: 24px;
+      background: #ecfdf5;
+      border-radius: 12px;
+      border: 2px solid #10b981;
+    }
+
+    .cta-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #065f46;
+      margin-bottom: 8px;
+    }
+
+    .cta-desc {
+      font-size: 14px;
+      color: #047857;
+    }
+
+    .code-block {
+      margin-top: 32px;
+      text-align: left;
+    }
+
+    .code-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 12px;
+    }
+
+    pre {
+      background: #1f2937;
+      color: #f9fafb;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    code {
+      font-family: 'Courier New', monospace;
+    }
+
+    .note {
+      margin-top: 24px;
+      padding: 16px;
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      border-radius: 4px;
+      text-align: left;
+      font-size: 14px;
+      color: #92400e;
+    }
+
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 2px solid #e5e7eb;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span class="badge">🚀 Hackathon Demo</span>
+    <h1>LingoLive Support</h1>
+    <p class="subtitle">Real-Time Multilingual Customer Support Chat Widget</p>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🌍</div>
+        <div class="feature-title">Multilingual Support</div>
+        <div class="feature-desc">
+          Chat in your own language. Messages are automatically translated between users and agents.
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Real-Time Communication</div>
+        <div class="feature-desc">
+          Powered by Socket.IO for instant message delivery and typing indicators.
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🎨</div>
+        <div class="feature-title">Easy Integration</div>
+        <div class="feature-desc">
+          Embed with a single script tag. No complex setup or configuration required.
+        </div>
+      </div>
+    </div>
+
+    <div class="cta">
+      <div class="cta-title">👉 Try it now!</div>
+      <div class="cta-desc">
+        Click the chat button in the bottom-right corner to start a conversation in English, Hindi, Spanish, or Bengali.
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-title">📦 How to embed on your website:</div>
+      <pre><code>&lt;!-- Add this script to your website --&gt;
+&lt;script&gt;
+  (function(){
+    window.__CHAT_WIDGET_CONFIG = {
+      backendUrl: "http://localhost:3000",
+      siteKey: "PUBLIC_SITE_KEY_123",
+      defaultLanguage: "auto",
+      availableLanguages: ["en", "hi", "es", "bn"],
+      theme: { primary: "#0b5cff" }
+    };
+
+    const s = document.createElement('script');
+    s.src = "http://localhost:3000/widget.bundle.js";
+    s.async = true;
+    document.head.appendChild(s);
+  })();
+&lt;/script&gt;</code></pre>
+    </div>
+
+    <div class="note">
+      <strong>💡 Note for Judges:</strong><br>
+      • Switch languages using the dropdown in the chat header<br>
+      • Open <strong>http://localhost:3000/agent.html</strong> in another tab to act as a support agent<br>
+      • All messages are translated automatically between user and agent languages<br>
+      • The UI is fully localized based on the selected language
+    </div>
+
+    <div class="footer">
+      Built with Node.js, Socket.IO, and Lingo • Hackathon 2024
+    </div>
+  </div>
+
+  <!-- ==================== WIDGET EMBED CODE ==================== -->
+  <script>
+    (function(){
+      window.__CHAT_WIDGET_CONFIG = {
+        backendUrl: "http://localhost:3000",
+        siteKey: "PUBLIC_SITE_KEY_123",
+        defaultLanguage: "auto",
+        availableLanguages: ["en", "hi", "es", "bn"],
+        theme: {
+          primary: "#0b5cff",
+          background: "#ffffff",
+          text: "#333333"
+        },
+        position: "bottom-right"
+      };
+
+      // Load widget script
+      const s = document.createElement('script');
+      // Use absolute path when serving from http-server, or relative when opening file directly
+      s.src = window.location.protocol === 'file:'
+        ? "../src/widget.js"
+        : "/src/widget.js";
+      s.async = true;
+      document.head.appendChild(s);
+    })();
+  </script>
+</body>
+</html>

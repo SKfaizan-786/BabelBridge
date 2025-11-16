@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon India - Example with BabelBridge</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+    }
+
+    /* Mock Amazon Header */
+    .header {
+      background: #131921;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .search-bar {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 4px;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    .hero {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      color: #232f3e;
+      margin-bottom: 1rem;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .product-title {
+      font-size: 1rem;
+      color: #232f3e;
+      margin-bottom: 0.5rem;
+      min-height: 2.5rem;
+    }
+
+    .product-price {
+      font-size: 1.5rem;
+      color: #B12704;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .buy-button {
+      width: 100%;
+      background: #FFD814;
+      border: 1px solid #FCD200;
+      padding: 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+
+    .buy-button:hover {
+      background: #F7CA00;
+    }
+
+    .notice {
+      background: #fff4e6;
+      border: 2px solid #FF9900;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .notice h2 {
+      color: #FF9900;
+      margin-bottom: 0.5rem;
+    }
+
+    .notice p {
+      color: #333;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <!-- Mock Amazon Header -->
+  <div class="header">
+    <div class="logo">amazon.in</div>
+    <input type="text" class="search-bar" placeholder="Search products...">
+    <div>🛒 Cart</div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="hero">
+      <h1>Great Indian Festival - Up to 70% Off!</h1>
+      <p>Shop the best deals on electronics, fashion, home & more</p>
+    </div>
+
+    <div class="notice">
+      <h2>🌍 Need Help? Chat in Your Language!</h2>
+      <p>
+        <strong>Notice the chat widget in the bottom-right corner?</strong><br>
+        This is BabelBridge! Try chatting in Hindi, Bengali, Tamil, Spanish, Arabic, or Chinese.<br>
+        Your messages are automatically translated for our support agents.
+      </p>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="products">
+      <div class="product-card">
+        <div class="product-image">📱</div>
+        <div class="product-title">Smartphone - Latest Model with 5G</div>
+        <div class="product-price">₹29,999</div>
+        <button class="buy-button">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image">💻</div>
+        <div class="product-title">Laptop - 16GB RAM, 512GB SSD</div>
+        <div class="product-price">₹54,999</div>
+        <button class="buy-button">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image">🎧</div>
+        <div class="product-title">Wireless Headphones - Noise Cancelling</div>
+        <div class="product-price">₹4,999</div>
+        <button class="buy-button">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image">⌚</div>
+        <div class="product-title">Smart Watch - Fitness Tracker</div>
+        <div class="product-price">₹12,999</div>
+        <button class="buy-button">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!--                    BABELBRIDGE WIDGET EMBED                      -->
+  <!-- This is what you would copy-paste into any website like Amazon   -->
+  <!-- ================================================================ -->
+
+  <!-- Step 1: Load the widget CSS -->
+  <link rel="stylesheet" href="./dist/style.css">
+
+  <!-- Step 2: Load the widget JavaScript -->
+  <script src="./dist/babelbridge-widget.iife.js"></script>
+
+  <!-- Step 3: Initialize the widget with your configuration -->
+  <script>
+    // Initialize BabelBridge widget
+    window.addEventListener('DOMContentLoaded', function() {
+      if (window.BabelBridge && window.BabelBridge.init) {
+        window.BabelBridge.init({
+          apiUrl: 'http://localhost:3000',     // Your BabelBridge backend URL
+          siteKey: 'amazon-india-store',       // Unique site identifier
+          position: 'bottom-right',            // Widget position
+          theme: 'light',                      // Match Amazon's theme
+          primaryColor: '#FF9900',             // Amazon's brand color
+          lang: 'hi'                           // Default to Hindi for India
+        });
+      }
+    });
+  </script>
+
+  <!-- ================================================================ -->
+  <!--                   END BABELBRIDGE WIDGET EMBED                   -->
+  <!-- ================================================================ -->
+
+</body>
+</html>

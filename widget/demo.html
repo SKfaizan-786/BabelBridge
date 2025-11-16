@@ -361,7 +361,7 @@
       <a href="#features" data-i18n="nav_features">Features</a>
       <a href="#embed" data-i18n="nav_embed">How to Embed</a>
       <a href="#languages" data-i18n="nav_languages">Languages</a>
-      <a href="http://localhost:5175/" target="_blank">Get BabelBridge</a>
+      <a href="https://babel-bridge-rdsy.vercel.app/" target="_blank">Get BabelBridge</a>
       <select class="lang-selector" id="langSelector">
         <option value="en">English</option>
         <option value="hi">हिंदी</option>
@@ -611,19 +611,22 @@
 
       let langData = translations[lang];
 
-      // Fetch from local Lingo-generated files
-      try {
-        const response = await fetch(`/locales/${lang}.json`);
-        if (response.ok) {
-          langData = await response.json();
-          console.log(`[i18n] Loaded ${lang} translations`);
-        } else {
-          console.warn(`Failed to load ${lang}, using English`);
+      // Fetch from backend API (works in both dev and production)
+      if (lang !== 'en') {
+        try {
+          const API_URL = 'https://babelbridge.onrender.com';
+          const response = await fetch(`${API_URL}/api/locales/${lang}.json`);
+          if (response.ok) {
+            langData = await response.json();
+            console.log(`[i18n] Loaded ${lang} translations from backend`);
+          } else {
+            console.warn(`Failed to load ${lang}, using English`);
+            langData = translations.en;
+          }
+        } catch (error) {
+          console.error(`Error loading ${lang}:`, error);
           langData = translations.en;
         }
-      } catch (error) {
-        console.error(`Error loading ${lang}:`, error);
-        langData = translations.en;
       }
 
       // Update all elements with data-i18n attribute

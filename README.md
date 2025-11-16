@@ -1,7 +1,7 @@
 # 🌉 BabelBridge
 
 <div align="center">
-  <img src="logo.jpg" alt="BabelBridge Logo" width="200"/>
+  <img src="public/logo.jpg" alt="BabelBridge Logo" width="200"/>
 
   **Break language barriers with real-time multilingual customer support**
 
@@ -13,6 +13,25 @@
 ---
 
 BabelBridge is a production-ready multilingual support chat system built for hackathons that enables real-time communication between customers and agents across **7 languages** with automatic translation. Customers chat in their native language, agents respond in English, and everything is translated automatically in real-time.
+
+---
+
+## 📸 Screenshots
+
+### Demo Landing Page
+<img src="public/demo.png" alt="BabelBridge Demo Landing Page" width="800"/>
+
+*Multilingual demo website with language switcher - automatically translates all UI elements*
+
+### Live Chat in Bengali (বাংলা)
+<img src="public/demo chat.png" alt="Chat Widget in Bengali" width="800"/>
+
+*Real-time chat translation - Customer types in Bengali, Agent sees English translation*
+
+### Agent Dashboard - Session Management
+<img src="public/agent dash.png" alt="Agent Dashboard" width="800"/>
+
+*Agent dashboard with real-time session management, delete sessions, and multilingual chat support*
 
 ---
 
@@ -43,6 +62,7 @@ BabelBridge provides:
 ### ⚡ Real-time Communication
 - **Socket.IO**: WebSocket-based instant messaging
 - **Live Session Management**: Track active, waiting, and completed sessions
+- **Session Controls**: Delete old sessions with one click
 - **Typing Indicators**: See when the other person is typing
 - **Connection Status**: Live connection state monitoring
 - **Auto-reconnect**: Resilient connection handling

@@ -37,3 +37,6 @@ temp/
 # Coverage
 coverage/
 .nyc_output/
+
+# Public assets (don't ignore - needed for GitHub)
+!public/

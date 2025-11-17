@@ -14,6 +14,11 @@
 
 BabelBridge is a production-ready multilingual support chat system built for hackathons that enables real-time communication between customers and agents across **7 languages** with automatic translation. Customers chat in their native language, agents respond in English, and everything is translated automatically in real-time.
 
+🔗 **Live Demo**: [https://babel-bridge.vercel.app/demo.html](https://babel-bridge.vercel.app/demo.html)
+🎛️ **Agent Dashboard**: [https://babel-bridge-rdsy.vercel.app](https://babel-bridge-rdsy.vercel.app)
+🌐 **Backend API**: [https://babelbridge.onrender.com](https://babelbridge.onrender.com)
+🛍️ **Amazon Embed Example**: [https://babel-bridge.vercel.app/production-embed-example.html](https://babel-bridge.vercel.app/production-embed-example.html)
+
 ---
 
 ## 📸 Screenshots
@@ -184,11 +189,17 @@ npm run dev
 
 ### 4. Test It Out!
 
-1. Open **Widget Demo** (http://localhost:5173/demo.html)
-2. Open **Agent Dashboard** (http://localhost:5175/dashboard)
+**🚀 Try the Live Demo (No Setup Required):**
+1. Open **Widget Demo**: [https://babel-bridge.vercel.app/demo.html](https://babel-bridge.vercel.app/demo.html)
+2. Open **Agent Dashboard**: [https://babel-bridge-rdsy.vercel.app](https://babel-bridge-rdsy.vercel.app)
 3. In widget, select Hindi and type: "मुझे मदद चाहिए"
 4. Agent sees English translation: "I need help"
 5. Agent replies in English, customer sees Hindi translation!
+
+**Or run locally:**
+1. Open **Widget Demo** (http://localhost:5173/demo.html)
+2. Open **Agent Dashboard** (http://localhost:5175/dashboard)
+3. Test the translation flow as above
 
 ---
 
@@ -469,7 +480,7 @@ Customer: "Vaya a Configuración > Seguridad > Cambiar contraseña"
 ### Widget Configuration
 ```javascript
 BabelBridge.init({
-  apiUrl: 'http://localhost:3000',
+  apiUrl: 'https://babelbridge.onrender.com',
   siteKey: 'my-website',
   position: 'bottom-right',  // Change position
   theme: 'dark',             // Change theme
@@ -591,7 +602,7 @@ MIT License - Feel free to use this for your projects!
 
 - **Documentation**: See [EMBED_GUIDE.md](EMBED_GUIDE.md)
 - **Issues**: Open a GitHub issue
-- **Demo**: http://localhost:5173/demo.html (after setup)
+- **Live Demo**: [https://babel-bridge.vercel.app/demo.html](https://babel-bridge.vercel.app/demo.html)
 
 ---
 
